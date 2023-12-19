@@ -13,7 +13,6 @@ console_log = "1"
 cfg-if = "1"
 leptos = { version = "0.5", features = ["nightly"] }
 leptos_axum = { version = "0.5", optional = true }
-leptos_meta = { version = "0.5", features = ["nightly"] }
 leptos_router = { version = "0.5", features = ["nightly"] }
 log = "0.4"
 simple_logger = "4"
@@ -27,7 +26,7 @@ http = "0.2.8"
 serde = { version = "1.0.193", default-features = false, features = ["derive"] }
 
 [features]
-hydrate = ["leptos/hydrate", "leptos_meta/hydrate", "leptos_router/hydrate"]
+hydrate = ["leptos/hydrate", "leptos_router/hydrate"]
 ssr = [
     "dep:axum",
     "dep:tokio",
@@ -35,7 +34,6 @@ ssr = [
     "dep:tower-http",
     "dep:leptos_axum",
     "leptos/ssr",
-    "leptos_meta/ssr",
     "leptos_router/ssr",
     "dep:tracing",
 ]
@@ -59,25 +57,11 @@ site-root = "target/site"
 # Defaults to pkg
 site-pkg-dir = "pkg"
 
-# [Optional] The source CSS file. If it ends with .sass or .scss then it will be compiled by dart-sass into CSS. The CSS is optimized by Lightning CSS before being written to <site-root>/<site-pkg>/app.css
-style-file = "style/main.scss"
-# Assets source dir. All files found here will be copied and synchronized to site-root.
-# The assets-dir cannot have a sub directory with the same name/path as site-pkg-dir.
-#
-# Optional. Env: LEPTOS_ASSETS_DIR.
-assets-dir = "public"
-
 # The IP and port (ex: 127.0.0.1:3000) where the server serves the content. Use it in your server setup.
 site-addr = "127.0.0.1:3000"
 
 # The port to use for automatic reload monitoring
 reload-port = 3001
-
-# [Optional] Command to use when running end2end tests. It will run in the end2end dir.
-#   [Windows] for non-WSL use "npx.cmd playwright test"
-#   This binary name can be checked in Powershell with Get-Command npx
-end2end-cmd = "npx playwright test"
-end2end-dir = "end2end"
 
 #  The browserlist query used for optimizing the CSS.
 browserquery = "defaults"
