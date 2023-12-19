@@ -30,6 +30,7 @@ pub fn App() -> impl IntoView {
             <main>
                 <Routes>
                     <Route path="" view=HomePage/>
+                    <Route path="load" view=BuggyTransition/>
                 </Routes>
             </main>
         </Router>
@@ -39,12 +40,30 @@ pub fn App() -> impl IntoView {
 /// Renders the home page of your application.
 #[component]
 fn HomePage() -> impl IntoView {
-    // Creates a reactive value to update the button
-    let (count, set_count) = create_signal(0);
-    let on_click = move |_| set_count.update(|count| *count += 1);
-
     view! {
         <h1>"Welcome to Leptos!"</h1>
-        <button on:click=on_click>"Click Me: " {count}</button>
+        <A href="/load">"Click here to load a buggy transition"</A>
     }
+}
+
+#[component]
+fn BuggyTransition() -> impl IntoView {
+    let resource = create_resource(|| (), |_| slow_server_function());
+
+    view! {
+        <Transition fallback=|| view!{"Loading...!"}>
+            {
+                move || resource.get().map(|value| match value {
+                    Ok(_) => view!{"Success!"},
+                    Err(_) => view!{"Error!"},
+                })
+            }
+        </Transition>
+    }
+}
+
+#[server]
+async fn slow_server_function() -> Result<(), ServerFnError> {
+    tokio::time::sleep(std::time::Duration::from_secs(2)).await;
+    Ok(())
 }
