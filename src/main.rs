@@ -4,8 +4,8 @@ async fn main() {
     use axum::{routing::post, Router};
     use leptos::*;
     use leptos_axum::{generate_route_list, LeptosRoutes};
-    use {{crate_name}}::app::*;
-    use {{crate_name}}::fileserv::file_and_error_handler;
+    use leptos_transition_fallback_bug::app::*;
+    use leptos_transition_fallback_bug::fileserv::file_and_error_handler;
 
     simple_logger::init_with_level(log::Level::Debug).expect("couldn't initialize logging");
 
